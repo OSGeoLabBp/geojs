@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+<title>EOV vetületi hossztorzulás kalkulátor</title>
+<meta charset="utf-8">
+</head>
+<script language="JavaScript">
+function init() {
+	document.eov.x.value="";
+	document.eov.m1.value="";
+	document.eov.m2.value="";
+	document.eov.m3.value="";
+}
+
+function sz_enter() {
+	if (event.keyCode==13) {
+		calc();
+	}
+}
+
+function calc() {
+	var empty = new RegExp('^ *$', 'g');
+	var r = new RegExp('\-', 'g');
+	if (document.eov.x.value.match(empty)) {
+		alert("Adjon meg egy EOV X koordinátát!");
+		return;
+	}
+	eov_x = document.eov.x.value.replace(r, "");
+	if (eov_x > 400000) {
+		alert("Nem EOV X koordináta!");
+		return;
+	}
+	if (document.eov.H.value.match(empty)) {
+		alert("Adja meg a tengerszint feletti magasságot!");
+		return;
+	}
+	H = document.eov.H.value.replace(r, "");
+
+	eov_x -= 200000;
+
+	e=1.228553*10e-15;
+	g=2.5*10e-30;
+	m=0.99993+e*Math.pow(eov_x,2)+g*Math.pow(eov_x,4);
+	m1=-H/6378;
+
+	m1=Math.round(m1*1000);
+	m2=Math.round((m-1)*1000000);
+	m3=m1+m2;
+
+	document.eov.m1.value = m1;
+	document.eov.m2.value = m2;
+	document.eov.m3.value = m3;
+}
+</script>
+<body bgcolor="#FFFFFF" text="#000000">
+<form name="eov" method="post" action="">
+<p>EOV X koordináta: <input type="text" name="x" size="10" onFocus="init();" onKeyup="sz_enter();">
+</p>
+<p>Tengerszint feletti magasság: <input type="text" name="H" size="6">
+</p>
+<p><input type="button" name="start" value="Számít" onClick="calc();">
+</p>
+<p>
+Alapfelületi redukció [mm/km]: <input type="text" name="m1" size="6" readonly>
+</p>
+<p>
+Lineármodulus [mm/km]: <input type="text" name="m2" size="6" readonly>
+</p>
+<p>
+A kettő együtt [mm/km]: <input type="text" name="m3" size="6" readonly>
+</p>
+</form>
+
+<h3>Megjegyzések:</h3>
+<ul>
+<li>Gyakorló mérnököknek is olykor gondot okoz, hogy bizonyos mérnöki létesítményeket
+(pl. hidakat, épületeket) EOV koordinátákkal akarnak kitűzni. Nem tudják, hogy a
+tervezők által megadott méretek valódi méretek és nem a vetületi síkon értendők! Ezt a szkriptet
+nekik készítettem. Segítségével megállapítható, hogy a munkaterületen a valódi és a vetületi
+távolságok között mekkora a különbség.</li>
+<li>A számításokhoz meg kell adni a munkaterület közelítő EOV X (200 000 méterrel eltolt) koordinátáját,
+illetve a tengerszint feletti magasság közelítő értékét.<br>
+- Ezután a szkript kiszámolja az 1 km-re eső alapfelületi redukció értékét és a lineármodulust. A kettő
+összege adja azt a hossztorzulást, amellyel elemi távolságok (a gyakorlatban előforduló néhány száz,
+esetleg néhány ezer méteres távolságok most elemi távolságoknak tekinthetők) hossztorzulása számítható.</li>
+</ul>
+</body>
+</html>

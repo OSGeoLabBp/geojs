@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>EOV szelvény kalkulátor</title>
+</head>
+<script language="JavaScript">
+function init() {
+	document.eov.m.value="";
+	document.eov.y0.value="";
+	document.eov.x0.value="";
+	document.eov.y1.value="";
+	document.eov.x1.value="";
+	document.eov.dy.value = "";
+	document.eov.dx.value = "";
+}
+
+function sz_enter()
+{
+	if (event.keyCode==13) {
+		calc();
+	}
+}
+
+function calc() {
+	var ma = new Array(100000, 50000, 25000, 10000, 4000, 2000, 1000, 500, 250);
+	var empty = new RegExp('^ *$', 'g');
+	var r = new RegExp('\-', 'g');
+	if (document.eov.szelv_szam.value.match(empty)) {
+		alert("Adjon meg egy szelvényszámot!");
+		return;
+	}
+	sz = document.eov.szelv_szam.value.replace(r, "");
+	if (sz.length < 2 || sz.length > 10) {
+		alert("Túl rövid vagy túl hosszú szelvényszám!");
+		return;
+	}
+	dy = 48000.0;
+	dx = 32000.0;
+	y = 384000.0 + sz.substr(1, 1) * dy;
+	x =  32000.0 + sz.substr(0, 1) * dx;
+	sz2 = sz.substr(2);
+	m = ma[sz2.length];
+	while(sz2.length > 0) {
+		dx = dx / 2.0;
+		dy = dy / 2.0;
+		switch (sz2.substr(0, 1)) {
+			case '1':
+				x = x + dx; break;
+			case '2':
+				y = y + dy; x = x + dx; break;
+			case '3':
+				break;
+			case '4':
+				y = y + dy; break;
+			default:
+				alert("Hibás érték!" + sz2.substr(0, 1));
+				return;
+		}
+		sz2 = sz2.substr(1);
+	}
+	document.eov.m.value = m;
+	document.eov.y0.value = y;
+	document.eov.x0.value = x;
+	document.eov.y1.value = y + dy;
+	document.eov.x1.value = x + dx;
+	document.eov.dy.value = dy;
+	document.eov.dx.value = dx;
+}
+</script>
+<body bgcolor="#FFFFFF" text="#000000">
+<form name="eov" method="post" action="">
+  <table width="100%" border="0" cellspacing="2" cellpadding="2">
+    <tr>
+      <td>Szelvényszám: 
+        <input type="text" name="szelv_szam" onFocus="init();" onKeyUp="sz_enter();">
+      </td>
+      <td>(pl. 65-143-12 vagy 6514312, a 107, 108, 109, 610, 710, 810, 910, 711, 
+        811 1:100000 szelvényekre és annak részeire sajnos nem használható)</td>
+    </tr>
+  </table>
+    <input type="button" name="start" value="Számít" onClick="calc();">
+  <table border="0" cellspacing="2" cellpadding="2">
+    <tr>
+      <td>&nbsp;</td>
+      <td align="center" valign="bottom">M=1: 
+        <input type="text" name="m" size="10" readonly>
+      </td>
+      <td> 
+        <p>y1= 
+          <input type="text" name="y1" size="12" readonly>
+          <br>
+          x1= 
+          <input type="text" name="x1" size="12" readonly>
+        </p>
+        </td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td align="center">
+        <table width="200" height="140" border="1" cellspacing="2" cellpadding="2">
+          <tr>
+            <td >&nbsp;</td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <input type="text" name="dx" size="10" readonly>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">y0= 
+        <input type="text" name="y0" size="12" readonly>
+        <br>
+        x0= 
+        <input type="text" name="x0" size="12" readonly>
+      </td>
+      <td align="center" valign="top">
+        <input type="text" name="dy" size="10" readonly>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+</form>
+
+
+</body>
+</html>

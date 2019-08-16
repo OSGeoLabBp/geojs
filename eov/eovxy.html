@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>EOV szelvény kalkulátor</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+</head>
+<script language="JavaScript">
+function init() {
+	document.eovxy.szelv_szam.value="";
+	document.eovxy.y0.value="";
+	document.eovxy.x0.value="";
+	document.eovxy.y1.value="";
+	document.eovxy.x1.value="";
+	document.eovxy.dy.value = "";
+	document.eovxy.dx.value = "";
+}
+
+function calcxy() {
+	var empty = new RegExp('^ *$', 'g');
+	var r = new RegExp('\-', 'g');
+	if (document.eovxy.y.value.match(empty) || document.eovxy.x.value.match(empty)) {
+		alert("Adja meg a koordinátákat!");
+		return;
+	}
+	y = document.eovxy.y.value;
+	x = document.eovxy.x.value;
+	if (y < 384000.0 || y > 1008000 ||  x < 32000 || x > 384000) {
+		alert("Nem EOV koordináta!  384000 <= y <= 1008000 és 32000 <= x <= 384000");
+		return;
+	}
+	dy = 48000.0;
+	dx = 32000.0;
+	/* sor */
+	sor = parseInt ((x - 32000.0) / dx);
+	oszlop = parseInt((y - 384000.0) / dy);
+	y0 = oszlop * dy + 384000.0;
+	x0 = sor * dx + 32000.0;
+	sz = sor.toString() + oszlop.toString() + "-";
+	m = document.eovxy.m.value;
+	m--;
+	while (m) {
+		dx /= 2.0;
+		dy /= 2.0;
+		if (sz.length == 6) sz += "-";
+		if (y <= y0 + dy && x > x0 + dx) {
+			sz += "1";
+			x0 += dx;
+		} else if (y > y0 + dy && x > x0 + dx) {
+			sz += "2";
+			x0 += dx;
+			y0 += dy;
+		} else if (y <= y0 + dy && x <= x0 + dx) {
+			sz += "3";
+		} else if (y > y0 + dy && x <= x0 + dx) {
+			sz += "4";
+			y0 += dy;
+		}
+		m--;
+	}
+	document.eovxy.szelv_szam.value = sz;
+	document.eovxy.y0.value = y0;
+	document.eovxy.x0.value = x0;
+	document.eovxy.y1.value = y0 + dy;
+	document.eovxy.x1.value = x0 + dx;
+	document.eovxy.dy.value = dy;
+	document.eovxy.dx.value = dx;
+}
+</script>
+<body bgcolor="#FFFFFF" text="#000000">
+<form name="eovxy" method="post" action="">
+  <p>Y= 
+    <input type="text" name="y" size="12" onFocus="init();">
+    X= 
+    <input type="text" name="x" size="12" onFocud="init();">
+    M=1 : 
+    <select name="m">
+      <option value="1" selected>100000</option>
+      <option value="2">50000</option>
+      <option value="3">25000</option>
+      <option value="4">10000</option>
+      <option value="5">4000</option>
+      <option value="6">2000</option>
+      <option value="7">1000</option>
+      <option value="8">500</option>
+      <option value="9">250</option>
+    </select>
+<input type="button" name="start" value="Számít" onClick="calcxy();">
+  </p>
+  <table border="0" cellspacing="2" cellpadding="2">
+    <tr>
+      <td>&nbsp;</td>
+      <td align="center" valign="bottom">Szelvényszám<br>
+        <input type="text" name="szelv_szam" readonly>
+        <br>
+      </td>
+      <td> 
+        <p>y1= 
+          <input type="text" name="y1" size="12" readonly>
+          <br>
+          x1= 
+          <input type="text" name="x1" size="12" readonly>
+        </p>
+        </td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td align="center">
+        <table width="200" height="140" border="1" cellspacing="2" cellpadding="2">
+          <tr>
+            <td >&nbsp;</td>
+          </tr>
+        </table>
+      </td>
+      <td>
+        <input type="text" name="dx" size="10" readonly>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">y0= 
+        <input type="text" name="y0" size="12" readonly>
+        <br>
+        x0= 
+        <input type="text" name="x0" size="12" readonly>
+      </td>
+      <td align="center" valign="top">
+        <input type="text" name="dy" size="10" readonly>
+      </td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+  <p><br>
+    <br>
+    <br>
+  </p>
+</form>
+
+
+</body>
+</html>
