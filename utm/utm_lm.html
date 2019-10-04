@@ -1,0 +1,66 @@
+<doctype html>
+<html>
+<head>
+<title>UTM hossztorzulás</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.5.0/proj4-src.js"></script>
+<script>
+	var a = 6378137;
+	var b = 6356752.314;
+	var eps = Math.sqrt((a**2-b**2)/a**2);
+	var m0 = 0.9996;
+	var fromPrj = "+proj=utm +zone=33 +ellps=WGS84";
+	var toPrj = "+proj=longlat +datum=WGS84 +no_defs";
+
+	function deg2rad(deg) {
+		return deg * Math.PI / 180;
+	}
+
+	function init() {
+		document.utm.y.value = "";
+		document.utm.x.value = "";
+		document.utm.m2.value = "";
+	}
+
+	function calc() {
+		var x0 = document.utm.x.value * 1.0;
+		var y = document.utm.y.value * 1.0;
+		var latlon = proj4(fromPrj, toPrj, [x0, y]);
+		var lat = latlon[0];
+		var lon = latlon[1];
+		var x = x0 - 500000;
+		var M = a * (1-eps**2) / (1-eps**2 * Math.sin(deg2rad(lon))**2)**1.5;
+		var N = a / (1-eps**2 * Math.sin(deg2rad(lon))**2)**0.5;
+		var R = Math.sqrt(M * N);
+		var T2 = 1.0 / (2.0 * R**2 * m0);
+		var T4 = 1.0 / (24.0 * R**4 * m0**3);
+		var l1 = m0 + T2 * x**2 + T4 * x**4;
+		l = (l1*1000.0 - 1000.0) * 1000.0;
+		document.utm.m2.value = Math.round(l);
+		//return l;
+	}
+	document.write(calc());
+</script>
+<body>
+	<form name="utm" method="post" action="">
+	<table border="0">
+	<tr>
+		<td>UTM kelet koordináta:</td>
+		<td><input type="text" name="x" size="3" onFocus="init();"></td>
+	</tr>
+	<tr>
+		<td>UTM észak koordináta:</td>
+		<td><input type="text" name="y" size="3"></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="right"><input type="button" name="start" value="Számít" onClick="calc();"></td>
+	</tr>
+	<tr>
+		<td>Lineármodulus [mm/km]:</td>
+		<td><input type="text" name="m2" size="3" readonly></td>
+	</tr>
+	</table>
+	</form>
+</body>
+</html>
