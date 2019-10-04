@@ -7,8 +7,8 @@
 </head>
 <script language="JavaScript">
 function init() {
-	document.eov.x.value="";
-	document.eov.H.value="";
+	//document.eov.x.value="";
+	//document.eov.H.value="";
 	document.eov.m1.value="";
 	document.eov.m2.value="";
 	document.eov.m3.value="";
@@ -16,13 +16,12 @@ function init() {
 
 function calc() {
 	var empty = new RegExp('^ *$', 'g');
-	var r = new RegExp('\-', 'g');
 	if (document.eov.x.value.match(empty)) {
 		alert("Adjon meg egy EOV X koordinátát!");
 		return;
 	}
-	eov_x = document.eov.x.value.replace(r, "");
-	if (eov_x > 400000 || eov_x < 0) {
+	eov_x = document.eov.x.value * 1;
+	if (eov_x > 400000 || eov_x <= 0) {
 		alert("Nem EOV X koordináta!");
 		return;
 	}
@@ -30,7 +29,7 @@ function calc() {
 		alert("Adja meg a tengerszint feletti magasságot!");
 		return;
 	}
-	H = document.eov.H.value.replace(r, "");
+	H = document.eov.H.value * 1;
 
 	eov_x -= 200000;
 
@@ -56,7 +55,7 @@ function calc() {
 </tr>
 <tr>
 <td>Tengerszint feletti magasság [m]:</td>
-<td><input type="text" name="H" size="3"></td>
+<td><input type="text" name="H" size="3" onFocus="init();"></td>
 </tr>
 <tr>
 <td colspan="2" align="right"><input type="button" name="start" value="Számít" onClick="calc();"></td>
