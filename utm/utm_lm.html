@@ -18,14 +18,15 @@
 	}
 
 	function init() {
-		document.utm.y.value = "";
-		document.utm.x.value = "";
+		//document.utm.y.value = "";
+		//document.utm.x.value = "";
 		document.utm.m2.value = "";
 	}
 
 	function calc() {
 		var x0 = document.utm.x.value * 1.0;
 		var y = document.utm.y.value * 1.0;
+		// convert UTM to WGS84
 		var latlon = proj4(fromPrj, toPrj, [x0, y]);
 		var lat = latlon[0];
 		var lon = latlon[1];
@@ -38,7 +39,6 @@
 		var l1 = m0 + T2 * x**2 + T4 * x**4;
 		l = (l1*1000.0 - 1000.0) * 1000.0;
 		document.utm.m2.value = Math.round(l);
-		//return l;
 	}
 	document.write(calc());
 </script>
@@ -51,7 +51,7 @@
 	</tr>
 	<tr>
 		<td>UTM észak koordináta:</td>
-		<td><input type="text" name="y" size="3"></td>
+		<td><input type="text" name="y" size="3" onFocus="init();"></td>
 	</tr>
 	<tr>
 		<td colspan="2" align="right"><input type="button" name="start" value="Számít" onClick="calc();"></td>
