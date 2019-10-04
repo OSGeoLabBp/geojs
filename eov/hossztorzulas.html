@@ -3,19 +3,15 @@
 <head>
 <title>EOV vetületi hossztorzulás kalkulátor</title>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <script language="JavaScript">
 function init() {
 	document.eov.x.value="";
+	document.eov.H.value="";
 	document.eov.m1.value="";
 	document.eov.m2.value="";
 	document.eov.m3.value="";
-}
-
-function sz_enter() {
-	if (event.keyCode==13) {
-		calc();
-	}
 }
 
 function calc() {
@@ -26,7 +22,7 @@ function calc() {
 		return;
 	}
 	eov_x = document.eov.x.value.replace(r, "");
-	if (eov_x > 400000) {
+	if (eov_x > 400000 || eov_x < 0) {
 		alert("Nem EOV X koordináta!");
 		return;
 	}
@@ -54,21 +50,30 @@ function calc() {
 </script>
 <body bgcolor="#FFFFFF" text="#000000">
 <form name="eov" method="post" action="">
-<p>EOV X koordináta: <input type="text" name="x" size="10" onFocus="init();" onKeyup="sz_enter();">
-</p>
-<p>Tengerszint feletti magasság: <input type="text" name="H" size="6">
-</p>
-<p><input type="button" name="start" value="Számít" onClick="calc();">
-</p>
-<p>
-Alapfelületi redukció [mm/km]: <input type="text" name="m1" size="6" readonly>
-</p>
-<p>
-Lineármodulus [mm/km]: <input type="text" name="m2" size="6" readonly>
-</p>
-<p>
-A kettő együtt [mm/km]: <input type="text" name="m3" size="6" readonly>
-</p>
+<table border="0">
+<tr><td>EOV X koordináta [m]:</td>
+<td><input type="text" name="x" size="3" onFocus="init();"></td>
+</tr>
+<tr>
+<td>Tengerszint feletti magasság [m]:</td>
+<td><input type="text" name="H" size="3"></td>
+</tr>
+<tr>
+<td colspan="2" align="right"><input type="button" name="start" value="Számít" onClick="calc();"></td>
+</tr>
+<tr>
+<td>Alapfelületi redukció [mm/km]:</td>
+<td><input type="text" name="m1" size="3" readonly></td>
+</tr>
+<tr>
+<td>Lineármodulus [mm/km]:</td>
+<td><input type="text" name="m2" size="3" readonly></td>
+</tr>
+<tr>
+<td>A kettő együtt [mm/km]:</td>
+<td><input type="text" name="m3" size="3" readonly></td>
+</tr>
+</table>
 </form>
 
 <h3>Megjegyzések:</h3>
