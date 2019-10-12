@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EOV szelvény kalkulátor</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
 </head>
@@ -69,12 +70,9 @@ function calcxy() {
 </script>
 <body bgcolor="#FFFFFF" text="#000000">
 <form name="eovxy" method="post" action="">
-  <p>Y= 
-    <input type="text" name="y" size="12" onFocus="init();">
-    X= 
-    <input type="text" name="x" size="12" onFocud="init();">
-    M=1 : 
-    <select name="m">
+  <p>Y=&nbsp;<input type="text" name="y" size="12" onFocus="init();">
+    X=&nbsp;<input type="text" name="x" size="12" onFocud="init();">
+    M=1&nbsp;:&nbsp;<select name="m">
       <option value="1" selected>100000</option>
       <option value="2">50000</option>
       <option value="3">25000</option>
@@ -87,19 +85,18 @@ function calcxy() {
     </select>
 <input type="button" name="start" value="Számít" onClick="calcxy();">
   </p>
+  <hr>
   <table border="0" cellspacing="2" cellpadding="2">
     <tr>
       <td>&nbsp;</td>
       <td align="center" valign="bottom">Szelvényszám<br>
-        <input type="text" name="szelv_szam" readonly>
+        <input type="text" name="szelv_szam" size="7" readonly>
         <br>
       </td>
       <td> 
-        <p>y1= 
-          <input type="text" name="y1" size="12" readonly>
+        <p>y1=&nbsp;<input type="text" name="y1" size="5" readonly>
           <br>
-          x1= 
-          <input type="text" name="x1" size="12" readonly>
+          x1=&nbsp;<input type="text" name="x1" size="5" readonly>
         </p>
         </td>
     </tr>
@@ -113,18 +110,16 @@ function calcxy() {
         </table>
       </td>
       <td>
-        <input type="text" name="dx" size="10" readonly>
+        <input type="text" name="dx" size="4" readonly>
       </td>
     </tr>
     <tr>
-      <td align="right">y0= 
-        <input type="text" name="y0" size="12" readonly>
+      <td align="right">y0=&nbsp;<input type="text" name="y0" size="6" readonly>
         <br>
-        x0= 
-        <input type="text" name="x0" size="12" readonly>
+        x0=&nbsp;<input type="text" name="x0" size="5" readonly>
       </td>
       <td align="center" valign="top">
-        <input type="text" name="dy" size="10" readonly>
+        <input type="text" name="dy" size="5" readonly>
       </td>
       <td>&nbsp;</td>
     </tr>
@@ -134,7 +129,6 @@ function calcxy() {
     <br>
   </p>
 </form>
-
 
 </body>
 </html>

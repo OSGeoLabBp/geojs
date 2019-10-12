@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EOV szelvény kalkulátor</title>
 </head>
 <script language="JavaScript">
@@ -70,28 +71,21 @@ function calc() {
 </script>
 <body bgcolor="#FFFFFF" text="#000000">
 <form name="eov" method="post" action="">
-  <table width="100%" border="0" cellspacing="2" cellpadding="2">
-    <tr>
-      <td>Szelvényszám: 
-        <input type="text" name="szelv_szam" onFocus="init();" onKeyUp="sz_enter();">
-      </td>
-      <td>(pl. 65-143-12 vagy 6514312, a 107, 108, 109, 610, 710, 810, 910, 711, 
-        811 1:100000 szelvényekre és annak részeire sajnos nem használható)</td>
-    </tr>
-  </table>
-    <input type="button" name="start" value="Számít" onClick="calc();">
+  <p>Szelvényszám: 
+  <input type="text" name="szelv_szam" onFocus="init();" onKeyUp="sz_enter();">
+  <input type="button" name="start" value="Számít" onClick="calc();">
+  <hr>
   <table border="0" cellspacing="2" cellpadding="2">
     <tr>
       <td>&nbsp;</td>
-      <td align="center" valign="bottom">M=1: 
-        <input type="text" name="m" size="10" readonly>
+      <td align="center" valign="bottom">M=1:<input type="text" name="m" size="5" readonly>
       </td>
       <td> 
         <p>y1= 
-          <input type="text" name="y1" size="12" readonly>
+          <input type="text" name="y1" size="6" readonly>
           <br>
           x1= 
-          <input type="text" name="x1" size="12" readonly>
+          <input type="text" name="x1" size="6" readonly>
         </p>
         </td>
     </tr>
@@ -105,24 +99,23 @@ function calc() {
         </table>
       </td>
       <td>
-        <input type="text" name="dx" size="10" readonly>
+        <input type="text" name="dx" size="4" readonly>
       </td>
     </tr>
     <tr>
       <td align="right">y0= 
-        <input type="text" name="y0" size="12" readonly>
+        <input type="text" name="y0" size="6" readonly>
         <br>
         x0= 
-        <input type="text" name="x0" size="12" readonly>
+        <input type="text" name="x0" size="6" readonly>
       </td>
       <td align="center" valign="top">
-        <input type="text" name="dy" size="10" readonly>
+        <input type="text" name="dy" size="4" readonly>
       </td>
       <td>&nbsp;</td>
     </tr>
   </table>
 </form>
-
-
+  <p>Szelvényszám pl. 65-143-12 vagy 6514312, a 107, 108, 109, 610, 710, 810, 910, 711, 811 1:100000 szelvényekre és azok részeire sajnos nem használható.</p>
 </body>
 </html>
